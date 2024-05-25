@@ -1,0 +1,5 @@
+#!/bin/bash
+
+
+KEY=$(cat key.txt) /home/andrew/.local/share/fnm/fnm exec node main.js
+
