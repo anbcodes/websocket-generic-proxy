@@ -36,6 +36,10 @@ wss.on('connection', function connection(ws, req) {
         socket.write(data as any);
       });
 
+      ws.on('close', () => {
+	socket.close();
+      });
+
       socket.on('data', (data) => {
         ws.send(data)
       })
@@ -54,6 +58,10 @@ wss.on('connection', function connection(ws, req) {
 
       ws.on('message', function message(data) {
         socket.send(data as any);
+      });
+
+      ws.on('close', () => {
+	socket.close()
       });
 
       socket.on('message', (data) => {
