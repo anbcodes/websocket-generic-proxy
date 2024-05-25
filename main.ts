@@ -37,7 +37,7 @@ wss.on('connection', function connection(ws, req) {
       });
 
       ws.on('close', () => {
-	socket.close();
+        socket.end();
       });
 
       socket.on('data', (data) => {
@@ -61,7 +61,7 @@ wss.on('connection', function connection(ws, req) {
       });
 
       ws.on('close', () => {
-	socket.close()
+        socket.close()
       });
 
       socket.on('message', (data) => {
