@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const ws = new WebSocket(
+        "ws://localhost:30000?key=test&port=30003&host=192.168.86.34&protocol=tcp"
+      );
+      ws.addEventListener("open", () => {
+        console.log("sending");
+        ws.send("\x02\x08\x00\x00\x00\x00\x00\x00\x00\x00\x00");
+      });
+
+      ws.addEventListener("message", async (msg) => {
+        console.log("recv");
+        console.log(new Uint8Array(await msg.data.arrayBuffer()));
+      });
+    </script>
+  </body>
+</html>
