@@ -1,6 +1,7 @@
 import * as net from 'net';
 import * as dgram from 'dgram';
 import { WebSocketServer } from 'ws';
+import { isArrayBuffer } from 'util/types';
 
 const wss = new WebSocketServer({ port: +(process.argv[2] ?? 30000), host: process.argv[3] ?? "127.0.0.1" }, () => {
   console.log(`Listening on ws://${wss.options.host}:${wss.options.port}`)
@@ -33,7 +34,11 @@ wss.on('connection', function connection(ws, req) {
         host,
       })
       ws.on('message', function message(data) {
-        socket.write(data as any);
+        if (isArrayBuffer(data)) {
+          socket.write(new Uint8Array(data));
+        } else {
+          socket.write(data as any);
+        };
       });
 
       ws.on('close', () => {
@@ -57,7 +62,11 @@ wss.on('connection', function connection(ws, req) {
       socket.connect(port, host);
 
       ws.on('message', function message(data) {
-        socket.send(data as any);
+        if (isArrayBuffer(data)) {
+          socket.send(new Uint8Array(data));
+        } else {
+          socket.send(data as any);
+        };
       });
 
       ws.on('close', () => {
